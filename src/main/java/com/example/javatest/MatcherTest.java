@@ -51,6 +51,17 @@ public class MatcherTest {
         String arg = "a";
         System.out.println("#7 " + arg.matches(pattern));
 
+        //
+        final String REGEX = "[0-9]+";
+        String test = "20201119173455-"; //년월일시분초
+
+        if(test.matches(REGEX)) {
+            System.out.println("숫자만 있습니다.");
+        }else {
+            System.out.println("숫자외에 값이 존재합니다.");
+        }
+
+
 
     }
     public static void PatternPrint(String reg, String str){

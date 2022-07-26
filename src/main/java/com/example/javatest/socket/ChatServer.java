@@ -1,8 +1,7 @@
 package com.example.javatest.socket;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -31,11 +30,22 @@ public class ChatServer {
                 String message = null;
 
                 // 데이터 받기
-                InputStream is = socket.getInputStream();
-                bytes = new byte[100];
-                int readByteCount = is.read(bytes);
-                message = new String(bytes, 0, readByteCount, "UTF-8");
-                System.out.println("[데이터 받기 성공] " + message);
+//                InputStream is = socket.getInputStream();
+//                bytes = new byte[100];
+//                int readByteCount = is.read(bytes);
+                BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                StringBuffer sb = new StringBuffer();
+                String line = "";
+
+                while((line = br.readLine()) != null && !(line.length() > 0 && line.charAt(0) == 0x04)) {
+                    sb.append(line);
+                    System.out.println("??");
+                }
+
+                System.out.println("[데이터 받기 성공] " + sb.toString());
+
+                //message = new String(bytes, 0, readByteCount, "UTF-8");
+                //System.out.println("[데이터 받기 성공] " + message);
 
                 // 데이터 보내기
                 OutputStream os = socket.getOutputStream();
@@ -45,7 +55,7 @@ public class ChatServer {
                 os.flush();
                 System.out.println("[데이터 보내기 성공]");
 
-                is.close();
+                //is.close();
                 os.close();
                 socket.close();
             }
